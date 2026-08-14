@@ -87,8 +87,7 @@ td{
 <form method="POST">
 
     <label>Student Name</label>
-    <input type="text" name="name" required>
-
+    <input type="text" name="name" required
     <label>Total Tuition Fee</label>
     <input type="number" name="tuition" required>
 
@@ -117,13 +116,54 @@ td{
         $tuition = $_POST["tuition"];
         $discount = $_POST["discount"];
         $months = $_POST["months"];
+        $discount_display = $_POST["discount"];
+        
+
+        if($discount == 10){
+            $discount = .10;
+        }
+        elseif($discount == 20){
+            $discount = .20;
+        }
+        elseif($discount == 50){
+            $discount = .50;
+        }
+        else{
+            $discount = 1;
+        }
+
+        if($discount_display == 10){
+            $discount_display = 10;
+        }
+        elseif($discount_display == 20){
+            $discount_display = 20;
+        }
+        elseif($discount_display == 50){
+            $discount_display = 50;
+        }
+        elseif($discount_display == 100){
+            $discount_display = 100;
+        }
 
         //computation
-        $disc_amount = $
+        $discount_amount = $discount * $tuition;
+        $after_discount = $tuition - $discount_amount;
+        $monthly_payment = $after_discount / $months;
 
+        if($monthly_payment >= 10000){
+            $payment_status = "<p style='color: red;'>HIGH MONTHLY PAYMENT</p>";
+        }
+        elseif($monthly_payment > 5000){
+            $payment_status = "<p style='color: yellow;'>MODERATE MONTHLY PAYMENT</p>";
+        }
+        else{
+            $payment_status = "<p style='color: green;'>AFFORDABLE MONTHLY PAYMENT</p>";
+        }
 ?>
 
 <table>
+
+
 
 <tr>
     <th colspan="2">Tuition Fee Summary</th>
@@ -131,44 +171,43 @@ td{
 
 <tr>
     <td>Student Name</td>
-    <td>Sean</td>
+    <td><?php echo $name ?></td>
 </tr>
 
 <tr>
     <td>Total Tuition Fee</td>
-    <td>₱10,000.00</td>
+    <td>₱<?php echo number_format($tuition,2) ?></td>
 </tr>
 
 <tr>
     <td>Discount Rate</td>
-    <td>20%</td>
+    <td><?php echo $discount_display ?>%</td>
 </tr>
 
 <tr>
     <td>Discount Amount</td>
-    <td style="color:green;">
-        ₱2,000.00    </td>
+    <td style="color:green;">₱<?php echo number_format($discount_amount,2) ?></td>
 </tr>
 
 <tr>
     <td>Balance After Discount</td>
-    <td>₱8,000.00</td>
+    <td>₱<?php echo number_format($after_discount,2) ?></td>
 </tr>
 
 <tr>
     <td>Months to Pay</td>
-    <td>3 Month(s)</td>
+    <td><?php echo $months ?> Months(s)</td>
 </tr>
 
 <tr>
     <td>Monthly Payment</td>
-    <td><strong>₱2,666.67</strong></td>
+    <td><strong>₱<?php echo number_format($monthly_payment,2) ?></strong></td>
 </tr>
 
 <tr>
     <td>Payment Status</td>
-    <td style="color:green">
-        <strong>Affordable Monthly Payment</strong>
+    <td>
+        <strong><?php echo $payment_status ?></strong>
     </td>
 </tr>
 
